@@ -1,3 +1,8 @@
+import { Fragment, useState } from "react";
+import { Dialog, Transition } from "@headlessui/react";
+import { CheckIcon } from "@heroicons/react/24/outline";
+import { Link } from "react-router-dom";
+
 const people = [
 	{
 		name: "Kamala Devi Harris",
@@ -5,7 +10,7 @@ const people = [
 		imageUrl:
 			"https://upload.wikimedia.org/wikipedia/commons/4/41/Kamala_Harris_Vice_Presidential_Portrait.jpg",
 		bio: "Kamala Devi Harris is an American politician and attorney who is the 49th and current vice president of the United States.",
-		ooo: "",
+		ooo: "https://www.youtube.com/watch?v=q7TCqVoIgwM&ab_channel=CNBCTelevision",
 	},
 	{
 		name: "Troy A. Miller",
@@ -127,14 +132,83 @@ const people = [
 	},
 ];
 
-export default function Example() {
+function Modal() {
+	const [open, setOpen] = useState(true);
+
+	return (
+		<Transition.Root show={open} as={Fragment}>
+			<Dialog as="div" className="relative z-10" onClose={setOpen}>
+				<Transition.Child
+					as={Fragment}
+					enter="ease-out duration-300"
+					enterFrom="opacity-0"
+					enterTo="opacity-100"
+					leave="ease-in duration-200"
+					leaveFrom="opacity-100"
+					leaveTo="opacity-0"
+				>
+					<div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+				</Transition.Child>
+
+				<div className="fixed inset-0 z-10 overflow-y-auto">
+					<div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+						<Transition.Child
+							as={Fragment}
+							enter="ease-out duration-300"
+							enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+							enterTo="opacity-100 translate-y-0 sm:scale-100"
+							leave="ease-in duration-200"
+							leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+							leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+						>
+							<Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm sm:p-6">
+								<div>
+									<div className="mt-3 text-center sm:mt-5">
+										<Dialog.Title
+											as="h3"
+											className="text-base font-semibold leading-6 text-gray-900"
+										>
+											Payment successful
+										</Dialog.Title>
+										<div className="mt-2">
+											<p className="text-sm text-gray-500">
+												Lorem ipsum dolor sit amet
+												consectetur adipisicing elit.
+												Consequatur amet labore.
+											</p>
+										</div>
+									</div>
+								</div>
+								<div className="mt-5 sm:mt-6">
+									<button
+										type="button"
+										className="inline-flex w-full justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:text-sm"
+										onClick={() => setOpen(false)}
+									>
+										Go back to dashboard
+									</button>
+								</div>
+							</Dialog.Panel>
+						</Transition.Child>
+					</div>
+				</div>
+			</Dialog>
+		</Transition.Root>
+	);
+}
+
+export default function Index() {
 	return (
 		<div className="bg-white py-8">
+			{/* <Modal /> */}
 			<div className="mx-auto max-w-7xl px-6 lg:px-8">
 				<div className="mx-auto max-w-2xl sm:text-center">
 					<h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
 						Meet our leadership
 					</h2>
+					<p className="mt-3 text-lg leading-8 text-gray-600">
+						Oaths of office's
+					</p>
 				</div>
 				<ul
 					role="list"
@@ -159,9 +233,17 @@ export default function Example() {
 								<p className="mt-6 text-base leading-7 text-gray-600">
 									{person.bio}
 								</p>
-								<p className="mt-6 text-base leading-7 text-gray-600">
-									{person.ooo}
-								</p>
+								{person.ooo && (
+									<div className="py-3">
+										<a
+											href={person.ooo}
+											className="mt-6 text-base leading-7 text-blue-600 "
+											target="_blank"
+										>
+											Oath of Office Link
+										</a>
+									</div>
+								)}
 							</div>
 						</li>
 					))}
